@@ -37,5 +37,5 @@ function validateEstablishment(establishment) {
     return schema.validate(establishment);
 }
 
-module.exports.User = Establishment;
+module.exports.Establishment = Establishment;
 module.exports.validate = validateEstablishment;
