@@ -15,8 +15,10 @@
     "supertest": "^6.2.2"
   },
   "dependencies": {
+    "config": "^3.3.7",
     "express": "^4.17.3",
     "joi": "^17.6.0",
+    "joi-objectid": "^4.0.2",
     "mongoose": "^6.2.10",
     "winston": "^3.7.2"
   }

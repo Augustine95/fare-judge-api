@@ -1,0 +1,4 @@
+{
+  "jwtPrivateKey": "s",
+  "db": "mongodb://localhost/fare-judge-api"
+}

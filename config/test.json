@@ -1,0 +1,3 @@
+{
+  "db": "mongodb://localhost/fare-judge-api_tests"
+}
