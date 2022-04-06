@@ -27,6 +27,7 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    reviews: [Object]
 });
 
 userSchema.methods.generateAuthToken = function () {
