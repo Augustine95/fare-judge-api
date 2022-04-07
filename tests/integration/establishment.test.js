@@ -16,9 +16,7 @@ describe("/api/establishments", () => {
   });
 
   describe("GET /", () => {
-    const exec = () => {
-      return request(server).get("/api/establishments/");
-    };
+    const exec = () => request(server).get("/api/establishments/");
 
     it("should return all establishments", async () => {
       const establishments = [
@@ -38,6 +36,10 @@ describe("/api/establishments", () => {
 
   describe("GET /:id", () => {
     let id;
+
+    afterEach(async () => {
+      await Establishment.deleteMany({});
+    });
 
     const exec = () => request(server).get("/api/establishments/" + id);
 
@@ -73,17 +75,12 @@ describe("/api/establishments", () => {
   });
 
   describe("POST /", () => {
-    let establishment;
+    let name;
     let token;
 
     beforeEach(async () => {
-      establishment = new Establishment({
-        name: "establishment1",
-        image: "12345",
-        location: "12345",
-      });
-      await establishment.save();
       token = new User().generateAuthToken();
+      name = "establishment1";
     });
 
     afterEach(async () => {
@@ -95,7 +92,7 @@ describe("/api/establishments", () => {
       return request(server)
         .post("/api/establishments")
         .set("x-auth-token", token)
-        .send({ establishment });
+        .send({ name, image: "12345", location: "12345" });
     };
 
     it("should return 401 if client is not logged in", async () => {
@@ -115,24 +112,22 @@ describe("/api/establishments", () => {
     });
 
     it("should return 400 if input is invalid", async () => {
-      establishment = "";
+      name = "";
 
       const res = await exec();
 
       expect(res.status).toBe(400);
     });
 
-    // it("should save the establishment if is valid", async () => {
-    //   await exec();
+    it("should save the establishment if is valid", async () => {
+      await exec();
 
-    //   const result = await Establishment.findById(establishment._id);
+      const result = await Establishment.findOne({ name });
 
-    //   expect(result).not.toBeNull();
-    //   expect(result).toHaveProperty("_id");
-    //   expect(result).toHaveProperty("name", establishment.name);
-    //   expect(result).toHaveProperty("location", establishment.location);
-    //   expect(result).toHaveProperty("image", establishment.image);
-    // });
+      expect(result).not.toBeNull();
+      expect(result).toHaveProperty("_id");
+      expect(result).toHaveProperty("name", name);
+    });
 
     it("should return the establishment if is valid", async () => {
       const res = await exec();

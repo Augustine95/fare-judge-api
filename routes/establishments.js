@@ -6,7 +6,7 @@ const { Establishment, validate } = require('../models/establishment');
 const validator = require('../middleware/validate');
 
 router.get('/', async (req, res) => {
-    const establishments = await Establishment.find({});
+    const establishments = await Establishment.find();
     res.send(establishments);
 });
 
