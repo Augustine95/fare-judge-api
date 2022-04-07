@@ -204,4 +204,73 @@ describe("/api/establishments", () => {
       expect(res.status).toBe(200);
     });
   });
+
+  describe("DELETE /:id", () => {
+    let name;
+    let token;
+    let establishment;
+
+    beforeEach(async () => {
+      name = "establishment1";
+      establishment = new Establishment({
+        name,
+        image: "12345",
+        location: "12345",
+      });
+      await establishment.save();
+      token = new User().generateAuthToken();
+    });
+
+    afterEach(async () => {
+      await User.deleteMany({});
+      await Establishment.deleteMany({});
+    });
+
+    const exec = () => {
+      return request(server)
+        .delete("/api/establishments/" + establishment._id)
+        .set("x-auth-token", token)
+        .send({ name, image: "12345", location: "12345" });
+    };
+
+    it("should return 401 if client is not logged in", async () => {
+      token = "";
+
+      const res = await exec();
+
+      expect(res.status).toBe(401);
+    });
+
+    it("should return 400 if invalid token is provided", async () => {
+      token = 1;
+
+      const res = await exec();
+
+      expect(res.status).toBe(400);
+    });
+
+    it("should return 404 if establishment with the given ID was not found", async () => {
+      await Establishment.deleteOne({ name });
+
+      const res = await exec();
+
+      expect(res.status).toBe(404);
+    });
+
+    it("should delete the establishment", async () => {
+      await exec();
+
+      const result = await Establishment.findOne({ name });
+
+      expect(result).toBeNull();
+    });
+
+    it("should return the deleted establishment", async () => {
+      const res = await exec();
+
+      expect(res.body).not.toBeNull();
+      expect(res.body).toHaveProperty("_id");
+      expect(res.body).toHaveProperty("name", name);
+    });
+  });
 });
