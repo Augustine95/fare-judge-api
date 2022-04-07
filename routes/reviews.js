@@ -8,16 +8,10 @@ const validator = require("../middleware/validate");
 const { User } = require("../models/user");
 
 router.get('/:id', validateObjectId, async (req, res) => {
-    const id = req.params.id;
+    const reviews = await Review.findById(req.params.id);
 
-    const user = await User.findById(id);
-    let establishment = null;
-    if (!user) {
-        establishment = await Establishment.findById(id);
-        if (!establishment) return res.status(404).send("Reviews with the given ID was not found.");
-    }
+    if (!reviews) return res.status(404).send("Review not found");
 
-    const reviews = await Review.findById(id);
     res.send(reviews);
 });
 
