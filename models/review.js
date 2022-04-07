@@ -10,7 +10,6 @@ const Review = mongoose.model("Review", new mongoose.Schema({
                 required: true,
                 type: String,
             },
-            reviews: [Object]
         }),
         required: true
     },
@@ -22,7 +21,6 @@ const Review = mongoose.model("Review", new mongoose.Schema({
                 required: true,
                 type: String,
             },
-            reviews: [Object]
         }),
         required: true
     },

@@ -22,7 +22,6 @@ const Establishment = mongoose.model('Establishment', new mongoose.Schema({
         type: String,
     },
     food: [Object],
-    reviews: [Object],
 }));
 
 function validateEstablishment(establishment) {
@@ -31,7 +30,6 @@ function validateEstablishment(establishment) {
         image: Joi.string().min(4).max(1024).required(),
         location: Joi.string().min(4).max(50).required(),
         food: Joi.array(),
-        reviews: Joi.array(),
     });
 
     return schema.validate(establishment);

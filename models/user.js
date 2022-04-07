@@ -27,7 +27,6 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
-    reviews: [Object]
 });
 
 userSchema.methods.generateAuthToken = function () {
@@ -45,7 +44,6 @@ function validateUser(user) {
         email: Joi.string().email().min(4).max(255).required(),
         password: Joi.string().min(4).max(1024).required(),
         isAdmin: Joi.boolean(),
-        reviews: Joi.array(),
     });
 
     return schema.validate(user);
