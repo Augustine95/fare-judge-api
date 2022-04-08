@@ -34,6 +34,7 @@ function validateReview(review) {
     const schema = Joi.object({
         userId: Joi.objectId().required(),
         establishmentId: Joi.objectId().required(),
+        review: Joi.object().required()
     });
 
     return schema.validate(review);
