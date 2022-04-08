@@ -27,6 +27,7 @@ router.post("/", [auth, validator(validate)], async (req, res) => {
         establishment: { _id: establishment._id, name: establishment.name },
         review: req.body.review,
     });
+    await review.save();
 
     res.send(review);
 });

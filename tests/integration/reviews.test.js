@@ -71,7 +71,6 @@ describe("/api/reviews", () => {
             it("should return the review with the given ID.", async () => {
                 const res = await exec();
 
-                console.log("REV", review);
                 expect(res.status).toBe(200);
                 expect(res.body).not.toBeNull();
                 expect(res.body).toHaveProperty('_id');
